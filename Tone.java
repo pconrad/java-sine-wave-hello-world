@@ -116,7 +116,7 @@ public class Tone {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		AudioFormat af = new AudioFormat(Tone.SAMPLE_RATE, 8, 2, true, false);
 		SourceDataLine sdl;
 		try {
@@ -131,7 +131,17 @@ public class Tone {
 			JOptionPane.showMessageDialog(null, "Couldn't open sound line");
 			return;
 		}
+
+		System.out.println("Before sleep 1");
+		Thread.sleep(1000);
+		System.out.println("After sleep 1");
+
 		sdl.start();
+
+		System.out.println("Before sleep 2");
+		Thread.sleep(1000);
+		System.out.println("After sleep 2");
+
 		Tone left = new Tone(400, 2000, .5, Tone.Channel.LEFT);
 		System.out.println("Playing left");
 		long t = System.currentTimeMillis();
@@ -146,8 +156,13 @@ public class Tone {
 		right.playSilence(sdl,1000);
 		System.out.println("Finished right");
 		sdl.drain();
+		System.out.println("Finished drain");
+		Thread.sleep(1000);
 		sdl.stop();
+		System.out.println("Finished stop");
+		Thread.sleep(1000);
 		sdl.close();
+		System.out.println("Finished close");
 		sdl = null;
 	}
 
